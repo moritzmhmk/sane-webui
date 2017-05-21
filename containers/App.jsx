@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import DeviceList from '../components/DeviceList.jsx'
+import Option from '../components/Option.jsx'
 import OptionList from '../components/OptionList.jsx'
 
 import * as deviceActions from '../actions/devices'
@@ -14,7 +15,15 @@ class App extends Component {
     if (!selectedDevice) {
       return (<DeviceList devices={devices} select={deviceActions.requestOpenDevice} />)
     } else {
-      return (<OptionList options={options} optionsByName={optionsByName} optionsGrouped={optionsGrouped} setOptionValue={optionActions.setOptionValue} />)
+      return <div>
+        <p>
+          <h1>Well Known Options</h1>
+          {optionsByName.resolution && <Option {...options[optionsByName.resolution]} setValue={optionActions.setOptionValue} />}
+        </p>
+        <p>
+          <OptionList options={options} optionsByName={optionsByName} optionsGrouped={optionsGrouped} setOptionValue={optionActions.setOptionValue} />
+        </p>
+      </div>
     }
   }
 }
