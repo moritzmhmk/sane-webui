@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import {RECEIVE_DEVICES, OPEN_DEVICE} from '../actions/devices'
-import {RECEIVE_OPTIONS, RECEIVE_OPTION_VALUE} from '../actions/options'
+import {RECEIVE_OPTIONS, REQUEST_OPTION_VALUE, RECEIVE_OPTION_VALUE} from '../actions/options'
 
 function devices (state = [], action) {
   switch (action.type) {
@@ -17,14 +17,25 @@ function options (state = {}, action) {
       let newState = {}
       action.payload.forEach(function (option, id) {
         option.id = id
+        option.device = action.meta
         newState[option.id] = option
       })
       return newState
+    case REQUEST_OPTION_VALUE:
+      return {...state, [action.meta.option]: {...state[action.meta.option], valuePending: true}}
     case RECEIVE_OPTION_VALUE:
-      let o = action.meta.option
-      let v = action.payload
-      console.log(RECEIVE_OPTION_VALUE, o, v)
-      return {...state, [o]: {...state[o], value: v}}
+      return {...state, [action.meta.option]: {...state[action.meta.option], value: action.payload, valuePending: false}}
+    default:
+      return state
+  }
+}
+
+function optionsByName (state = {}, action) {
+  switch (action.type) {
+    case RECEIVE_OPTIONS:
+      let newState = {}
+      action.payload.forEach(function (option, id) { newState[option.name] = option.id })
+      return newState
     default:
       return state
   }
@@ -68,6 +79,7 @@ const rootReducer = combineReducers({
   devices,
   selectedDevice,
   options,
+  optionsByName,
   optionsGrouped
 })
 

@@ -10,11 +10,11 @@ import * as optionActions from '../actions/options'
 
 class App extends Component {
   render () {
-    const { selectedDevice, devices, deviceActions, options, optionsGrouped, optionActions } = this.props
+    const { selectedDevice, devices, deviceActions, options, optionsByName, optionsGrouped, optionActions } = this.props
     if (!selectedDevice) {
       return (<DeviceList devices={devices} select={deviceActions.requestOpenDevice} />)
     } else {
-      return (<OptionList options={options} optionsGrouped={optionsGrouped} />)
+      return (<OptionList options={options} optionsByName={optionsByName} optionsGrouped={optionsGrouped} setOptionValue={optionActions.setOptionValue} />)
     }
   }
 }
@@ -29,6 +29,7 @@ function mapState (state) {
     selectedDevice: state.selectedDevice,
     devices: state.devices,
     options: state.options || [],
+    optionsByName: state.optionsByName || {},
     optionsGrouped: state.optionsGrouped || []
   }
 }
