@@ -18,7 +18,10 @@ class App extends Component {
       return <div>
         <p>
           <h1>Well Known Options</h1>
+          {optionsByName.mode && <Option {...options[optionsByName.mode]} setValue={optionActions.setOptionValue} />}
+          {optionsByName.depth && <Option {...options[optionsByName.depth]} setValue={optionActions.setOptionValue} />}
           {optionsByName.resolution && <Option {...options[optionsByName.resolution]} setValue={optionActions.setOptionValue} />}
+          {optionsByName.source && <Option {...options[optionsByName.source]} setValue={optionActions.setOptionValue} />}
         </p>
         <p>
           <OptionList options={options} optionsByName={optionsByName} optionsGrouped={optionsGrouped} setOptionValue={optionActions.setOptionValue} />

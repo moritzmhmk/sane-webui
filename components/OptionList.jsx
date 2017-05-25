@@ -19,9 +19,11 @@ OptionList.propTypes = {
 
 const Group = props => {
   let advanced = props.cap.indexOf('ADVANCED') >= 0
-  return <div data-advanced={advanced}>
-    <h2>{props.title}</h2>
-    {props.children}
+  return <div className='card' data-advanced={advanced} style={{marginBottom: '10px'}}>
+    <h3 className='card-header'>{props.title}</h3>
+    <div className='card-block'>
+      {props.children}
+    </div>
   </div>
 }
 
