@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import {RECEIVE_DEVICES, OPEN_DEVICE} from '../actions/devices'
 import {RECEIVE_OPTIONS, REQUEST_OPTION_VALUE, RECEIVE_OPTION_VALUE} from '../actions/options'
+import {REQUEST_SCAN, RECEIVE_SCAN} from '../actions/scans'
 
 function devices (state = [], action) {
   switch (action.type) {
@@ -66,6 +67,38 @@ function optionsGrouped (state = [], action) {
   }
 }
 
+function scans (state = {}, action) {
+  switch (action.type) {
+    case REQUEST_SCAN:
+      return {
+        ...state,
+        [action.meta.id]: {pending: true}
+      }
+    case RECEIVE_SCAN:
+      return {
+        ...state,
+        [action.meta.id]: {
+          ...state[action.meta.id],
+          pending: false,
+          data: action.payload
+        }
+      }
+    default:
+      return state
+  }
+}
+
+function selectedScan (state = null, action) {
+  switch (action.type) {
+    case REQUEST_SCAN:
+      return action.meta.id
+//    case OPEN_SCAN:
+//      return action.meta.id
+    default:
+      return state
+  }
+}
+
 function selectedDevice (state = null, action) {
   switch (action.type) {
     case OPEN_DEVICE:
@@ -80,7 +113,9 @@ const rootReducer = combineReducers({
   selectedDevice,
   options,
   optionsByName,
-  optionsGrouped
+  optionsGrouped,
+  scans,
+  selectedScan
 })
 
 export default rootReducer
