@@ -45,7 +45,7 @@ function optionsGrouped (state = [], action) {
   switch (action.type) {
     case RECEIVE_OPTIONS:
       let group = { members: [], cap: [], title: '' }
-      let groups = [group]
+      let groups = []
       action.payload.forEach((option) => {
         if (option.type === 'GROUP') {
           group = {
