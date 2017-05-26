@@ -7,10 +7,10 @@ export function requestScan (device) {
 }
 
 export const RECEIVE_SCAN = 'RECEIVE_SCAN'
-export function receiveScan (device, id, data) {
+export function receiveScan (device, id, image) {
   return {
     type: RECEIVE_SCAN,
     meta: {device, id},
-    payload: data
+    payload: image
   }
 }

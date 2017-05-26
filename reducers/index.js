@@ -80,7 +80,7 @@ function scans (state = {}, action) {
         [action.meta.id]: {
           ...state[action.meta.id],
           pending: false,
-          data: action.payload
+          image: action.payload
         }
       }
     default:
