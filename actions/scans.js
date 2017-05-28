@@ -14,3 +14,11 @@ export function receiveScan (device, id, image) {
     payload: image
   }
 }
+
+export const SELECT_SCAN = 'SELECT_SCAN'
+export function selectScan (device, id) {
+  return {
+    type: SELECT_SCAN,
+    meta: {device, id}
+  }
+}

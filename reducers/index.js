@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import {RECEIVE_DEVICES, OPEN_DEVICE} from '../actions/devices'
 import {RECEIVE_OPTIONS, REQUEST_OPTION_VALUE, RECEIVE_OPTION_VALUE} from '../actions/options'
-import {REQUEST_SCAN, RECEIVE_SCAN} from '../actions/scans'
+import {REQUEST_SCAN, RECEIVE_SCAN, SELECT_SCAN} from '../actions/scans'
 
 function devices (state = [], action) {
   switch (action.type) {
@@ -92,8 +92,8 @@ function selectedScan (state = null, action) {
   switch (action.type) {
     case REQUEST_SCAN:
       return action.meta.id
-//    case OPEN_SCAN:
-//      return action.meta.id
+    case SELECT_SCAN:
+      return action.meta.id
     default:
       return state
   }

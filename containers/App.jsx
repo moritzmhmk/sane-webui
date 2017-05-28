@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import DeviceList from '../components/DeviceList.jsx'
+import ThumbnailsView from '../components/ThumbnailsView.jsx'
+import ScanView from '../components/ScanView.jsx'
 import Option from '../components/Option.jsx'
 import OptionList from '../components/OptionList.jsx'
 
@@ -21,26 +23,8 @@ class App extends Component {
       return (<DeviceList devices={devices} select={deviceActions.requestOpenDevice} />)
     } else {
       return <div className='row'>
-        <div id='thumbnails'>
-          {Object.values(scans).map(scan => <img src={scan.image && scan.image.data} style={{width: '100%'}} />)}
-          <div className='add' />
-        </div>
-        <div id='scan' style={{height: '100vh', overflow: 'hidden', textAlign: 'center', lineHeight: '100vh'}}>
-          <img src={selectedScan && `/api/devices/${selectedDevice}/scan.png?id=${selectedScan}`} onLoad={e => {
-            console.log(e)
-            let img = e.target
-            let canvas = document.createElement('canvas')
-            canvas.width = img.width
-            canvas.height = img.height
-            let ctx = canvas.getContext('2d')
-            ctx.drawImage(img, 0, 0)
-            let dataURL = canvas.toDataURL('image/png')
-            console.log(dataURL)
-            scanActions.receiveScan(selectedDevice, selectedScan, {data: dataURL, width: img.width, height: img.width})
-          }}
-            style={{maxWidth: '100%', maxHeight: '100vh', verticalAlign: 'center'}} />
-          <div className='selection' />
-        </div>
+        <ThumbnailsView scans={scans} select={id => scanActions.selectScan(selectedDevice, id)} />
+        <ScanView selectedDevice={selectedDevice} scans={scans} selectedScan={selectedScan} scanActions={scanActions} />
         <div id='options'>
           <div>
             <h1>Well Known Options</h1>
