@@ -21,10 +21,11 @@ class App extends Component {
       return (<DeviceList devices={devices} select={deviceActions.requestOpenDevice} />)
     } else {
       return <div className='row'>
-        <div className='col col-1'>
+        <div id='thumbnails'>
           {Object.values(scans).map(scan => <img src={scan.image && scan.image.data} style={{width: '100%'}} />)}
+          <div className='add' />
         </div>
-        <div className='col col-sm-5 col-md-6 col-lg-7 col-xl-8' style={{height: '100vh', overflow: 'hidden', textAlign: 'center', lineHeight: '100vh'}}>
+        <div id='scan' style={{height: '100vh', overflow: 'hidden', textAlign: 'center', lineHeight: '100vh'}}>
           <img src={selectedScan && `/api/devices/${selectedDevice}/scan.png?id=${selectedScan}`} onLoad={e => {
             console.log(e)
             let img = e.target
@@ -38,8 +39,9 @@ class App extends Component {
             scanActions.receiveScan(selectedDevice, selectedScan, {data: dataURL, width: img.width, height: img.width})
           }}
             style={{maxWidth: '100%', maxHeight: '100vh', verticalAlign: 'center'}} />
+          <div className='selection' />
         </div>
-        <div className='col col-sm-6 col-md-5 col-lg-4 col-xl-3' style={{width: '100%', height: '100vh', overflow: 'auto'}}>
+        <div id='options'>
           <div>
             <h1>Well Known Options</h1>
             {optionsByName.mode && <Option {...options[optionsByName.mode]} setValue={optionActions.setOptionValue} />}
