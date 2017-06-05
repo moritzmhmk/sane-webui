@@ -22,3 +22,28 @@ export function selectScan (device, id) {
     meta: {device, id}
   }
 }
+
+export const ADD_SCAN_REGION = 'ADD_SCAN_REGION'
+export function addScanRegion (device, scan) {
+  return {
+    type: ADD_SCAN_REGION,
+    meta: {device, scan}
+  }
+}
+
+export const REMOVE_SCAN_REGION = 'REMOVE_SCAN_REGION'
+export function removeScanRegion (device, scan, region) {
+  return {
+    type: ADD_SCAN_REGION,
+    meta: {device, scan, region}
+  }
+}
+
+export const UPDATE_SCAN_REGION = 'UPDATE_SCAN_REGION'
+export function updateScanRegion (device, scan, region, data) {
+  return {
+    type: UPDATE_SCAN_REGION,
+    meta: {device, scan, region},
+    payload: data
+  }
+}

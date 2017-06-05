@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import {RECEIVE_DEVICES, OPEN_DEVICE} from '../actions/devices'
 import {RECEIVE_OPTIONS, REQUEST_OPTION_VALUE, RECEIVE_OPTION_VALUE} from '../actions/options'
-import {REQUEST_SCAN, RECEIVE_SCAN, SELECT_SCAN} from '../actions/scans'
+import {REQUEST_SCAN, RECEIVE_SCAN, SELECT_SCAN, ADD_SCAN_REGION, REMOVE_SCAN_REGION, UPDATE_SCAN_REGION} from '../actions/scans'
 
 function devices (state = [], action) {
   switch (action.type) {
@@ -81,6 +81,49 @@ function scans (state = {}, action) {
           ...state[action.meta.id],
           pending: false,
           image: action.payload
+        }
+      }
+    case ADD_SCAN_REGION:
+      return {
+        ...state,
+        [action.meta.scan]: {
+          ...state[action.meta.scan],
+          regions: [
+            ...state[action.meta.scan].regions || [],
+            {
+              position: {x: 0, y: 0},
+              dimension: {x: 100, y: 100},
+              rotation: 0
+            }
+          ]
+        }
+      }
+    case REMOVE_SCAN_REGION:
+      return {
+        ...state,
+        [action.meta.scan]: {
+          ...state[action.meta.scan],
+          regions: [
+            ...state[action.meta.scan].regions.slice(0, action.meta.region),
+            ...state[action.meta.scan].regions.slice(action.meta.region + 1)
+          ]
+        }
+      }
+    case UPDATE_SCAN_REGION:
+      return {
+        ...state,
+        [action.meta.scan]: {
+          ...state[action.meta.scan],
+          regions: [
+            ...state[action.meta.scan].regions.slice(0, action.meta.region),
+            {
+              ...state[action.meta.scan].regions[action.meta.region],
+              position: action.payload.position || state[action.meta.scan].regions[action.meta.region].position,
+              dimension: action.payload.dimension || state[action.meta.scan].regions[action.meta.region].dimension,
+              rotation: action.payload.rotation || state[action.meta.scan].regions[action.meta.region].rotation
+            },
+            ...state[action.meta.scan].regions.slice(action.meta.region + 1)
+          ]
         }
       }
     default:

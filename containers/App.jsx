@@ -24,7 +24,7 @@ class App extends Component {
     } else {
       return <div className='row'>
         <ThumbnailsView scans={scans} select={id => scanActions.selectScan(selectedDevice, id)} />
-        <ScanView selectedDevice={selectedDevice} scans={scans} selectedScan={selectedScan} scanActions={scanActions} />
+        <ScanView selectedDevice={selectedDevice} scans={scans} selectedScan={selectedScan} receiveScan={scanActions.receiveScan} addRegion={scanActions.addScanRegion} updateRegion={scanActions.updateScanRegion} />
         <div id='options'>
           <div>
             <h1>Well Known Options</h1>
