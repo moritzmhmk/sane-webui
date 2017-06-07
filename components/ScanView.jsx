@@ -119,14 +119,20 @@ class Region extends Component {
     const cos = Math.cos(rad)
     m = {x: m.x * cos - m.y * sin, y: m.x * sin + m.y * cos} // rotate mouse movement relative to rectangle
     if (this.state.mode === 'resize') {
-      let w = this.props.w
-      let h = this.props.h
+      let dw = 0
+      let dh = 0
       let dx = 0
       let dy = 0
-      if (this.state.activeCorner.top) { h = Math.max(this.props.h - m.y, 0); dy = -(h - this.props.h) / 2 }
-      if (this.state.activeCorner.bottom) { h = Math.max(this.props.h + m.y, 0); dy = (h - this.props.h) / 2 }
-      if (this.state.activeCorner.left) { w = Math.max(this.props.w - m.x, 0); dx = -(w - this.props.w) / 2 }
-      if (this.state.activeCorner.right) { w = Math.max(this.props.w + m.x, 0); dx = (w - this.props.w) / 2 }
+      if (this.state.activeCorner.top) { dh = -1; dy = -0.5 }
+      if (this.state.activeCorner.bottom) { dh = 1; dy = 0.5 }
+      if (this.state.activeCorner.left) { dw = -1; dx = -0.5 }
+      if (this.state.activeCorner.right) { dw = 1; dx = 0.5 }
+      dw = dw * m.x
+      dh = dh * m.y
+      dx = dx * dw
+      dy = dy * dh
+      const w = Math.abs(this.props.w + dw)
+      const h = Math.abs(this.props.h + dh)
       const x = this.props.x + dx * cos - dy * (-sin) // calculate new center position
       const y = this.props.y + dx * (-sin) + dy * cos // relative to rectangle rotation
       this.setState({position: {x: x, y: y}, dimension: {x: w, y: h}})
