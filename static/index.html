@@ -88,9 +88,19 @@
 
       #scan .region {
         position: absolute;
-        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' fill='none' stroke='#FFF' stroke-width='2' /><rect width='100%' height='100%' fill='none' stroke='#000' stroke-dasharray='5,5' stroke-width='2'><animate attributeName='stroke-dashoffset' from='0' to='10' dur='1s' repeatCount='indefinite' /></rect></svg>");
+        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' fill='rgba(255,255,255,0.2)' stroke='#FFF' stroke-width='2' /><rect width='100%' height='100%' fill='none' stroke='#000' stroke-dasharray='5,5' stroke-width='2'></rect></svg>");
         background-size: 100% 100%;
         cursor: move;
+      }
+
+      #scan .region:before {
+        position: absolute;
+        top: 50%;
+        line-height: 0;
+        left: 0px;
+        width: 100%;
+        text-align: center;
+        content: attr(data-id);
       }
 
       #scan .region .corner {
@@ -101,6 +111,7 @@
         width: 9px;
         margin: -4px;
         border: 1px solid #000;
+        background: rgba(255, 255, 255, 0.2);
       }
 
       #scan .region .corner.t { top: 0%; margin-top: -5px; }
@@ -108,14 +119,41 @@
       #scan .region .corner.l { left: 0%; margin-left: -5px; }
       #scan .region .corner.r { left: 100%; }
 
-      #scan .region[data-mode="resize"] .corner.t { cursor: ns-resize; }
-      #scan .region[data-mode="resize"] .corner.b { cursor: ns-resize; }
-      #scan .region[data-mode="resize"] .corner.l { cursor: ew-resize; }
-      #scan .region[data-mode="resize"] .corner.r { cursor: ew-resize; }
-      #scan .region[data-mode="resize"] .corner.t.l { cursor: nwse-resize; }
-      #scan .region[data-mode="resize"] .corner.b.r { cursor: nwse-resize; }
-      #scan .region[data-mode="resize"] .corner.t.r { cursor: nesw-resize; }
-      #scan .region[data-mode="resize"] .corner.b.l { cursor: nesw-resize; }
+      #scan .region[data-mode="resize"][data-orientation="0"] .corner.t { cursor: ns-resize; }
+      #scan .region[data-mode="resize"][data-orientation="0"] .corner.b { cursor: ns-resize; }
+      #scan .region[data-mode="resize"][data-orientation="0"] .corner.l { cursor: ew-resize; }
+      #scan .region[data-mode="resize"][data-orientation="0"] .corner.r { cursor: ew-resize; }
+      #scan .region[data-mode="resize"][data-orientation="0"] .corner.t.l { cursor: nwse-resize; }
+      #scan .region[data-mode="resize"][data-orientation="0"] .corner.b.r { cursor: nwse-resize; }
+      #scan .region[data-mode="resize"][data-orientation="0"] .corner.t.r { cursor: nesw-resize; }
+      #scan .region[data-mode="resize"][data-orientation="0"] .corner.b.l { cursor: nesw-resize; }
+
+      #scan .region[data-mode="resize"][data-orientation="1"] .corner.t { cursor: nesw-resize; }
+      #scan .region[data-mode="resize"][data-orientation="1"] .corner.b { cursor: nesw-resize; }
+      #scan .region[data-mode="resize"][data-orientation="1"] .corner.l { cursor: nwse-resize; }
+      #scan .region[data-mode="resize"][data-orientation="1"] .corner.r { cursor: nwse-resize; }
+      #scan .region[data-mode="resize"][data-orientation="1"] .corner.t.l { cursor: ns-resize; }
+      #scan .region[data-mode="resize"][data-orientation="1"] .corner.b.r { cursor: ns-resize; }
+      #scan .region[data-mode="resize"][data-orientation="1"] .corner.t.r { cursor: ew-resize; }
+      #scan .region[data-mode="resize"][data-orientation="1"] .corner.b.l { cursor: ew-resize; }
+
+      #scan .region[data-mode="resize"][data-orientation="2"] .corner.t { cursor: ew-resize; }
+      #scan .region[data-mode="resize"][data-orientation="2"] .corner.b { cursor: ew-resize; }
+      #scan .region[data-mode="resize"][data-orientation="2"] .corner.l { cursor: ns-resize; }
+      #scan .region[data-mode="resize"][data-orientation="2"] .corner.r { cursor: ns-resize; }
+      #scan .region[data-mode="resize"][data-orientation="2"] .corner.t.l { cursor: nesw-resize; }
+      #scan .region[data-mode="resize"][data-orientation="2"] .corner.b.r { cursor: nesw-resize; }
+      #scan .region[data-mode="resize"][data-orientation="2"] .corner.t.r { cursor: nwse-resize; }
+      #scan .region[data-mode="resize"][data-orientation="2"] .corner.b.l { cursor: nwse-resize; }
+
+      #scan .region[data-mode="resize"][data-orientation="3"] .corner.t { cursor: nwse-resize; }
+      #scan .region[data-mode="resize"][data-orientation="3"] .corner.b { cursor: nwse-resize; }
+      #scan .region[data-mode="resize"][data-orientation="3"] .corner.l { cursor: nesw-resize; }
+      #scan .region[data-mode="resize"][data-orientation="3"] .corner.r { cursor: nesw-resize; }
+      #scan .region[data-mode="resize"][data-orientation="3"] .corner.t.l { cursor: ew-resize; }
+      #scan .region[data-mode="resize"][data-orientation="3"] .corner.b.r { cursor: ew-resize; }
+      #scan .region[data-mode="resize"][data-orientation="3"] .corner.t.r { cursor: ns-resize; }
+      #scan .region[data-mode="resize"][data-orientation="3"] .corner.b.l { cursor: ns-resize; }
 
       #scan .region[data-mode="rotate"] .corner { border-radius: 50%; cursor: pointer; }
 

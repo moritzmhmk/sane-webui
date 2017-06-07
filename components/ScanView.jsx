@@ -12,6 +12,7 @@ const ScanView = props => {
     regions = scans[selectedScan] && scans[selectedScan].regions && scans[selectedScan].regions.map(
       (region, i) => <Region
         key={i}
+        id={i}
         x={region.position.x}
         y={region.position.y}
         w={region.dimension.x}
@@ -161,9 +162,18 @@ class Region extends Component {
     let r = this.state.rotation ? this.state.rotation : this.props.r
     return <div
       className='region'
+      data-id={this.props.id + 1}
       data-dragged={this.state.dragged}
       data-mode={this.state.mode}
-      style={{top: y - h / 2, left: x - w / 2, width: w, height: h, transform: `rotate(${r}deg)`}}
+      data-orientation={Math.round((r + 360) / 45) % 4}
+      style={{
+        top: y - h / 2,
+        left: x - w / 2,
+        width: w,
+        height: h,
+        fontSize: `${Math.min(w, h)}px`,
+        transform: `rotate(${r}deg)`
+      }}
       ref={ref => { this.ref = ref }}
       onMouseDown={this.dragStart.bind(this)}
       onDoubleClick={this.switchMode.bind(this)}
