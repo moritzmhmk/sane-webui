@@ -12,7 +12,6 @@ class ScanView extends Component {
     e.stopPropagation()
   }
   drag (e) {
-    console.log(e)
     if (!this.state.dragStart) { return }
     const x = this.state.dragStart.x - this.state.position.x
     const y = this.state.dragStart.y - this.state.position.y
@@ -64,7 +63,7 @@ class ScanView extends Component {
           key={selectedScan/* changing key causes replacement in DOM -> image is shown while loading */}
           src={src}
           onLoad={e => {
-            console.log(e)
+            if (!scans[selectedScan].pending) { return }
             let img = e.target
             let canvas = document.createElement('canvas')
             canvas.width = img.width
@@ -121,6 +120,12 @@ class Region extends Component {
       document.removeEventListener('mousemove', this.cornerMove.bind(this))
       document.removeEventListener('mouseup', this.cornerEnd.bind(this))
     }
+  }
+  componentWillUnmount () {
+    document.removeEventListener('mousemove', this.drag.bind(this))
+    document.removeEventListener('mouseup', this.dragEnd.bind(this))
+    document.removeEventListener('mousemove', this.cornerMove.bind(this))
+    document.removeEventListener('mouseup', this.cornerEnd.bind(this))
   }
   select (e) {
     this.props.select()
