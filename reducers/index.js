@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import {RECEIVE_DEVICES, OPEN_DEVICE} from '../actions/devices'
 import {RECEIVE_OPTIONS, REQUEST_OPTION_VALUE, RECEIVE_OPTION_VALUE} from '../actions/options'
-import {REQUEST_SCAN, RECEIVE_SCAN, SELECT_SCAN, ADD_SCAN_REGION, REMOVE_SCAN_REGION, UPDATE_SCAN_REGION} from '../actions/scans'
+import {REQUEST_SCAN, RECEIVE_SCAN, SELECT_SCAN, ADD_SCAN_REGION, REMOVE_SCAN_REGION, UPDATE_SCAN_REGION, SELECT_SCAN_REGION} from '../actions/scans'
 
 function devices (state = [], action) {
   switch (action.type) {
@@ -80,7 +80,8 @@ function scans (state = {}, action) {
         [action.meta.id]: {
           ...state[action.meta.id],
           pending: false,
-          image: action.payload
+          image: action.payload,
+          regions: []
         }
       }
     case ADD_SCAN_REGION:
@@ -89,13 +90,14 @@ function scans (state = {}, action) {
         [action.meta.scan]: {
           ...state[action.meta.scan],
           regions: [
-            ...state[action.meta.scan].regions || [],
+            ...state[action.meta.scan].regions,
             {
-              position: {x: 0, y: 0},
-              dimension: {x: 100, y: 100},
-              rotation: 0
+              position: action.payload.position || {x: 0, y: 0},
+              dimension: action.payload.dimension || {x: 100, y: 100},
+              rotation: action.payload.rotation || 0
             }
-          ]
+          ],
+          selectedRegion: state[action.meta.scan].regions.length
         }
       }
     case REMOVE_SCAN_REGION:
@@ -124,6 +126,14 @@ function scans (state = {}, action) {
             },
             ...state[action.meta.scan].regions.slice(action.meta.region + 1)
           ]
+        }
+      }
+    case SELECT_SCAN_REGION:
+      return {
+        ...state,
+        [action.meta.scan]: {
+          ...state[action.meta.scan],
+          selectedRegion: action.meta.region
         }
       }
     default:
