@@ -71,7 +71,7 @@ class ScanView extends Component {
             let ctx = canvas.getContext('2d')
             ctx.drawImage(img, 0, 0)
             let dataURL = canvas.toDataURL('image/png')
-            receiveScan(selectedDevice, selectedScan, {data: dataURL, width: img.width, height: img.width})
+            receiveScan(selectedDevice, selectedScan, {data: dataURL, width: img.width, height: img.height})
           }}
           style={{maxWidth: '100%', maxHeight: '100vh', verticalAlign: 'center', zIndex: -1}} />
         {regions}
