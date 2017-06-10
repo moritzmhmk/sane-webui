@@ -6,6 +6,16 @@ class ScanView extends Component {
     super(props)
     this.state = {position: {x: 120, y: 0}} // TODO
   }
+  _imageForRegion (g) {
+    let canvas = document.createElement('canvas')
+    canvas.width = g.dimension.x
+    canvas.height = g.dimension.y
+    let ctx = canvas.getContext('2d')
+    ctx.translate(g.dimension.x / 2, g.dimension.y / 2)
+    ctx.rotate(-g.rotation * (Math.PI / 180))
+    ctx.drawImage(this.img, -g.position.x, -g.position.y)
+    return canvas.toDataURL('image/png')
+  }
   dragStart (e) {
     this.setState({dragStart: {x: e.clientX, y: e.clientY}})
     e.preventDefault()
@@ -23,7 +33,7 @@ class ScanView extends Component {
   }
   dragEnd (e) {
     if (this.state.dragRegion) {
-      this.props.addRegion(this.props.selectedDevice, this.props.selectedScan, this.state.dragRegion)
+      this.props.addRegion(this.props.selectedDevice, this.props.selectedScan, this.state.dragRegion, this._imageForRegion(this.state.dragRegion))
       e.preventDefault()
       e.stopPropagation()
     }
@@ -41,13 +51,16 @@ class ScanView extends Component {
         (region, i) => <Region
           key={i}
           id={i}
-          x={region.position.x}
-          y={region.position.y}
-          w={region.dimension.x}
-          h={region.dimension.y}
-          r={region.rotation}
+          x={region.geometry.position.x}
+          y={region.geometry.position.y}
+          w={region.geometry.dimension.x}
+          h={region.geometry.dimension.y}
+          r={region.geometry.rotation}
           active={i === scans[selectedScan].selectedRegion}
-          update={geometry => updateRegion(selectedDevice, selectedScan, i, geometry)}
+          update={geometry => {
+            const g = {...region.geometry, ...geometry}
+            updateRegion(selectedDevice, selectedScan, i, geometry, this._imageForRegion(g))
+          }}
           select={() => selectRegion(selectedDevice, selectedScan, i)}
         />
       )
@@ -61,6 +74,7 @@ class ScanView extends Component {
         onMouseUp={this.dragEnd.bind(this)}>
         <img
           key={selectedScan/* changing key causes replacement in DOM -> image is shown while loading */}
+          ref={img => { this.img = img }}
           src={src}
           onLoad={e => {
             if (!scans[selectedScan].pending) { return }
@@ -211,10 +225,12 @@ class Region extends Component {
   }
   cornerEnd (e) {
     if (this.state.position && (this.state.position.x !== this.props.x || this.state.position.y !== this.props.y) ||
-        this.state.dimension && (this.state.dimension.x !== this.props.w || this.state.dimension.y !== this.props.h) ||
-        this.state.rotation
+        this.state.dimension && (this.state.dimension.x !== this.props.w || this.state.dimension.y !== this.props.h)
     ) {
-      this.props.update({position: this.state.position, dimension: this.state.dimension, rotation: this.state.rotation})
+      this.props.update({position: this.state.position, dimension: this.state.dimension})
+    }
+    if (this.state.rotation) {
+      this.props.update({rotation: this.state.rotation})
     }
     this.setState({cornerStart: undefined, activeCorner: undefined, position: undefined, dimension: undefined, rotation: undefined})
     e.preventDefault()

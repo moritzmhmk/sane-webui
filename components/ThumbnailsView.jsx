@@ -4,7 +4,13 @@ import PropTypes from 'prop-types'
 const ThumbnailsView = props => {
   let {scans, select} = props
   return (<div id='thumbnails'>
-    {Object.keys(scans).map((id) => <img key={id} src={scans[id].image && scans[id].image.data} style={{width: '100%'}} onClick={() => select(id)} />)}
+    {Object.keys(scans).map(
+      id => <div>
+        <img key={id} className='scan' src={scans[id].image && scans[id].image.data} onClick={() => select(id)} />
+        {scans[id].regions && scans[id].regions.map(
+          region => <img className='region' src={region.image} onClick={() => select(id)} />
+        )}
+      </div>)}
     <div className='add' onClick={() => select(null)} />
   </div>)
 }

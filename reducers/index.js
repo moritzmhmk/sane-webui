@@ -92,9 +92,8 @@ function scans (state = {}, action) {
           regions: [
             ...state[action.meta.scan].regions,
             {
-              position: action.payload.position || {x: 0, y: 0},
-              dimension: action.payload.dimension || {x: 100, y: 100},
-              rotation: action.payload.rotation || 0
+              geometry: {position: {x: 0, y: 0}, dimension: {x: 100, y: 100}, rotation: 0, ...action.payload.geometry},
+              image: action.payload.image
             }
           ],
           selectedRegion: state[action.meta.scan].regions.length
@@ -119,10 +118,8 @@ function scans (state = {}, action) {
           regions: [
             ...state[action.meta.scan].regions.slice(0, action.meta.region),
             {
-              ...state[action.meta.scan].regions[action.meta.region],
-              position: action.payload.position || state[action.meta.scan].regions[action.meta.region].position,
-              dimension: action.payload.dimension || state[action.meta.scan].regions[action.meta.region].dimension,
-              rotation: action.payload.rotation || state[action.meta.scan].regions[action.meta.region].rotation
+              geometry: {...state[action.meta.scan].regions[action.meta.region].geometry, ...action.payload.geometry},
+              image: action.payload.image || state[action.meta.scan].regions[action.meta.region].image
             },
             ...state[action.meta.scan].regions.slice(action.meta.region + 1)
           ]
