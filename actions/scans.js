@@ -24,11 +24,11 @@ export function selectScan (device, id) {
 }
 
 export const ADD_SCAN_REGION = 'ADD_SCAN_REGION'
-export function addScanRegion (device, scan, data) {
+export function addScanRegion (device, scan, geometry) {
   return {
     type: ADD_SCAN_REGION,
     meta: {device, scan},
-    payload: data
+    payload: geometry
   }
 }
 
@@ -41,11 +41,11 @@ export function removeScanRegion (device, scan, region) {
 }
 
 export const UPDATE_SCAN_REGION = 'UPDATE_SCAN_REGION'
-export function updateScanRegion (device, scan, region, data) {
+export function updateScanRegion (device, scan, region, geometry) {
   return {
     type: UPDATE_SCAN_REGION,
     meta: {device, scan, region},
-    payload: data
+    payload: geometry
   }
 }
 

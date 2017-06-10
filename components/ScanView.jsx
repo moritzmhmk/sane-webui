@@ -47,7 +47,7 @@ class ScanView extends Component {
           h={region.dimension.y}
           r={region.rotation}
           active={i === scans[selectedScan].selectedRegion}
-          update={data => updateRegion(selectedDevice, selectedScan, i, data)}
+          update={geometry => updateRegion(selectedDevice, selectedScan, i, geometry)}
           select={() => selectRegion(selectedDevice, selectedScan, i)}
         />
       )
