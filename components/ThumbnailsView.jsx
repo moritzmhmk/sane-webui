@@ -8,7 +8,7 @@ const ThumbnailsView = props => {
       id => <div>
         <img key={id} className='scan' src={scans[id].image && scans[id].image.data} onClick={() => select(id)} />
         {scans[id].regions && scans[id].regions.map(
-          region => <img className='region' src={region.image} onClick={() => select(id)} />
+          (region, i) => <img className='region' src={region.image} onClick={() => select(id, i)} />
         )}
       </div>)}
     <div className='add' onClick={() => select(null)} />

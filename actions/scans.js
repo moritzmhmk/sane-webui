@@ -15,14 +15,6 @@ export function receiveScan (device, id, image) {
   }
 }
 
-export const SELECT_SCAN = 'SELECT_SCAN'
-export function selectScan (device, id) {
-  return {
-    type: SELECT_SCAN,
-    meta: {device, id}
-  }
-}
-
 export const ADD_SCAN_REGION = 'ADD_SCAN_REGION'
 export function addScanRegion (device, scan, geometry, image) {
   return {

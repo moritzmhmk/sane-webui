@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import {RECEIVE_DEVICES, OPEN_DEVICE} from '../actions/devices'
 import {RECEIVE_OPTIONS, REQUEST_OPTION_VALUE, RECEIVE_OPTION_VALUE} from '../actions/options'
-import {REQUEST_SCAN, RECEIVE_SCAN, SELECT_SCAN, ADD_SCAN_REGION, REMOVE_SCAN_REGION, UPDATE_SCAN_REGION, SELECT_SCAN_REGION} from '../actions/scans'
+import {REQUEST_SCAN, RECEIVE_SCAN, ADD_SCAN_REGION, REMOVE_SCAN_REGION, UPDATE_SCAN_REGION, SELECT_SCAN_REGION} from '../actions/scans'
 
 function devices (state = [], action) {
   switch (action.type) {
@@ -126,13 +126,13 @@ function scans (state = {}, action) {
         }
       }
     case SELECT_SCAN_REGION:
-      return {
+      return action.meta.scan ? {
         ...state,
         [action.meta.scan]: {
           ...state[action.meta.scan],
           selectedRegion: action.meta.region
         }
-      }
+      } : state
     default:
       return state
   }
@@ -142,8 +142,8 @@ function selectedScan (state = null, action) {
   switch (action.type) {
     case REQUEST_SCAN:
       return action.meta.id
-    case SELECT_SCAN:
-      return action.meta.id
+    case SELECT_SCAN_REGION:
+      return action.meta.scan
     default:
       return state
   }

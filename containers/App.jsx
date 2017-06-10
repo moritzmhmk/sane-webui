@@ -23,7 +23,7 @@ class App extends Component {
       return (<DeviceList devices={devices} select={deviceActions.requestOpenDevice} />)
     } else {
       return <div className='row'>
-        <ThumbnailsView scans={scans} select={id => scanActions.selectScan(selectedDevice, id)} />
+        <ThumbnailsView scans={scans} select={(scan, region) => scanActions.selectScanRegion(selectedDevice, scan, region)} />
         <ScanView selectedDevice={selectedDevice} scans={scans} selectedScan={selectedScan} receiveScan={scanActions.receiveScan} addRegion={scanActions.addScanRegion} updateRegion={scanActions.updateScanRegion} selectRegion={scanActions.selectScanRegion} />
         <div id='options'>
           <div>
